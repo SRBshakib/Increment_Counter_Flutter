@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simple Counter',
+      title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Simple Counter Home Page'),
+      home: const MyHomePage(title: 'Increment Counter'),
     );
   }
 }
@@ -33,26 +33,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0; // This variable stores the current count.
+  int _counter = 0;
 
   void _incrementCounter() {
-
     setState(() {
-      _counter++; // Increase the counter by one.
+
+      _counter++;
     });
   }
 
   void _decrementCounter() {
     setState(() {
-      if (_counter > 0) { // Only decrement if counter is greater than 0
-        _counter--; // Decrease the counter by one.
+      if (_counter > 0) {
+        _counter--;
       }
     });
   }
 
-  void _resetCounter() {
+  void _reset(){
     setState(() {
-      _counter = 0; // Reset the counter to zero.
+      if(_counter >= 0){
+        _counter = 0;
+      }
     });
   }
 
@@ -62,46 +64,49 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
 
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+
         title: Text(widget.title),
       ),
       body: Center(
 
         child: Column(
 
-          mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically.
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'The counter value is:',
-            ),
+            const Text('Your counter value:'),
+
             Text(
-              '$_counter', // Display the current counter value.
-              style: Theme.of(context).textTheme.headlineMedium, // Use a predefined text style from the theme.
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
-      floatingActionButton: Column( // Use a Column to stack multiple FABs vertically
-        mainAxisAlignment: MainAxisAlignment.end, // Align FABs to the bottom
-        children: <Widget>[
-          FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add), // Simple add icon.
-          ),
-          const SizedBox(height: 10), // Some spacing between buttons
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Decrement Button
           FloatingActionButton(
             onPressed: _decrementCounter,
             tooltip: 'Decrement',
-            backgroundColor: Colors.orange, // Give it a different color
-            child: const Icon(Icons.remove), // Simple remove icon.
+            child: const Icon(Icons.remove),
           ),
-          const SizedBox(height: 10), // Some spacing
+          const SizedBox(width: 20),
+          // Reset Button
           FloatingActionButton(
-            onPressed: _resetCounter,
+            onPressed: _reset,
             tooltip: 'Reset',
-            backgroundColor: Colors.red, // Give it another color
-            child: const Icon(Icons.refresh), // Simple refresh icon.
+            child: const Icon(Icons.refresh),
           ),
+          const SizedBox(width: 20), // Space between buttons
+          // Increment Button
+          FloatingActionButton(
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+
         ],
       ),
     );
